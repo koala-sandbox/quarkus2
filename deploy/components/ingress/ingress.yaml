@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+  creationTimestamp: null
+  name: quarkus2-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: quarkus2.cluster.koalaops.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: quarkus2-service
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - quarkus2.cluster.koalaops.com
+    secretName: quarkus2-tls-cert
+status:
+  loadBalancer: {}
